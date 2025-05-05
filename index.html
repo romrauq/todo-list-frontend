@@ -28,7 +28,7 @@
 				const [error, setError] = useState(null);
 				const [notification, setNotification] = useState(null);
 
-				const API_URL = 'http://localhost:3500';
+				const API_BASE_URL = 'http://localhost:3500';
 
 				useEffect(() => {
 					fetchTodos();
@@ -42,7 +42,7 @@
 				const fetchTodos = async () => {
 					setIsLoading(true);
 					try {
-						const response = await axios.get(`${API_URL}/todos`);
+						const response = await axios.get(`${API_BASE_URL}/todos`);
 						setTodos(response.data);
 					} catch (err) {
 						console.error('Error fetching todos:', err);
@@ -57,7 +57,7 @@
 					if (!newTodo.trim()) return;
 
 					try {
-						const response = await axios.post(`${API_URL}/todos`, {
+						const response = await axios.post(`${API_BASE_URL}/todos`, {
 							title: newTodo,
 							completed: false
 						});
@@ -73,7 +73,7 @@
 
 				const deleteTodo = async (id) => {
 					try {
-						await axios.delete(`${API_URL}/todos/${id}`);
+						await axios.delete(`${API_BASE_URL}/todos/${id}`);
 						setTodos(todos.filter(todo => todo._id !== id));
 						showNotification('Todo deleted successfully!');
 					} catch (err) {
@@ -84,7 +84,7 @@
 
 				const toggleComplete = async (todo) => {
 					try {
-						const response = await axios.put(`${API_URL}/todos/${todo._id}`, {
+						const response = await axios.put(`${API_BASE_URL}/todos/${todo._id}`, {
 							...todo,
 							completed: !todo.completed
 						});
@@ -112,7 +112,7 @@
 
 					try {
 						const todoToUpdate = todos.find(todo => todo._id === id);
-						const response = await axios.put(`${API_URL}/todos/${id}`, {
+						const response = await axios.put(`${API_BASE_URL}/todos/${id}`, {
 							...todoToUpdate,
 							title: editingText
 						});
